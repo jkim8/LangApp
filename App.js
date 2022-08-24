@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Animated } from "react-native";
+import { TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 
 const Container = styled.View`
@@ -7,7 +8,7 @@ const Container = styled.View`
   justify-content: center;
   align-items: center;
 `;
-const Box = styled.TouchableOpacity`
+const Box = styled.View`
   background-color: tomato;
   width: 200px;
   height: 200px;
@@ -16,15 +17,21 @@ const Box = styled.TouchableOpacity`
 const AnimatedBox = Animated.createAnimatedComponent(Box);
 
 export default function App() {
-  const Y = new Animated.Value(0);
-  const moveUp = () => {};
+  const [up, setUp] = useState(true);
+  const Y = useRef(new Animated.Value(0)).current;
+  const toggleUp = () => setUp((prev) => !prev);
+  const moveUp = () => {
+    Animated.timing(Y, {
+      toValue: up ? 200 : -200,
+      useNativeDriver: true,
+    }).start(toggleUp);
+  };
 
   return (
     <Container>
-      <AnimatedBox
-        onPress={moveUp}
-        style={{ transform: [{ translateY: Y }] }}
-      />
+      <TouchableOpacity onPress={moveUp}>
+        <AnimatedBox style={{ transform: [{ translateY: Y }] }} />
+      </TouchableOpacity>
     </Container>
   );
 }
