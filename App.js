@@ -42,6 +42,9 @@ export default function App() {
           y: dy,
         });
       },
+      onPanResponderRelease: () => {
+        position.setValue({ x: 0, y: 0 });
+      },
     })
   ).current;
 
@@ -52,7 +55,7 @@ export default function App() {
         style={{
           borderRadius,
           backgroundColor: bgColor,
-          transform: [...position.getTranslateTransform()],
+          transform: position.getTranslateTransform(),
         }}
       />
     </Container>
