@@ -47,6 +47,11 @@ export default function App() {
   // Values
   const scale = useRef(new Animated.Value(1)).current;
   const position = useRef(new Animated.ValueXY({ x: 0, y: 0 })).current;
+  const scaleOne = position.y.interpolate({
+    inputRange: [-300, -80],
+    outputRange: [2, 1],
+    extrapolate: "clamp",
+  });
   // Animations
   const onPressIn = Animated.spring(scale, {
     toValue: 0.9,
@@ -80,7 +85,7 @@ export default function App() {
   return (
     <Container>
       <Edge>
-        <WordContainer>
+        <WordContainer style={{ transform: [{ scale: scaleOne }] }}>
           <Word color={GREEN}>알아</Word>
         </WordContainer>
       </Edge>
