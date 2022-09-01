@@ -106,7 +106,7 @@ export default function App() {
               easing: Easing.linear,
               useNativeDriver: true,
             }),
-          ]).start();
+          ]).start(nextIcon);
         } else {
           Animated.parallel([onPressOut, goHome]).start();
         }
@@ -114,6 +114,12 @@ export default function App() {
     })
   ).current;
   // State
+  const [index, setIndex] = useState(0);
+  const nextIcon = () => {
+    Animated.spring(scale, { toValue: 1, useNativeDriver: true }).start();
+    Animated.spring(opacity, { toValue: 1, useNativeDriver: true }).start();
+    setIndex((prev) => prev + 1);
+  };
   return (
     <Container>
       <Edge>
@@ -129,7 +135,7 @@ export default function App() {
             transform: [...position.getTranslateTransform(), { scale }],
           }}
         >
-          <Ionicons name="beer" color={GREY} size={76} />
+          <Ionicons name={icons[index]} color={GREY} size={76} />
         </IconCard>
       </Center>
       <Edge>
