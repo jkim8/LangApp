@@ -116,8 +116,11 @@ export default function App() {
   // State
   const [index, setIndex] = useState(0);
   const nextIcon = () => {
-    Animated.spring(scale, { toValue: 1, useNativeDriver: true }).start();
-    Animated.spring(opacity, { toValue: 1, useNativeDriver: true }).start();
+    Animated.parallel([
+      Animated.spring(scale, { toValue: 1, useNativeDriver: true }).start(),
+      Animated.spring(opacity, { toValue: 1, useNativeDriver: true }).start(),
+    ]).start();
+
     setIndex((prev) => prev + 1);
   };
   return (
